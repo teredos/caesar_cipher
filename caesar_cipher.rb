@@ -1,24 +1,27 @@
-def caesar_cipher(string, shift_factor)
+# frozen_string_literal: true
 
-  alphabet_lower = ("a".."z").to_a
-  alphabet_upper = ("A".."Z").to_a
-  new_string = ""
-
-  string.split("").each do |element|
-    if alphabet_lower.include?(element)
-      new_value = alphabet_lower.index(element) + shift_factor
-      new_value -= 26 while new_value > 25
-      new_string += alphabet_lower[new_value].to_s
-    elsif alphabet_upper.include?(element)
-      new_value = alphabet_upper.index(element) + shift_factor
-      new_value -= 26 while new_value > 25
-      new_string += alphabet_upper[new_value].to_s
-    else
-      new_string += element
-    end
-  end
-
-  new_string
+def caesar_cipher(str, shft_num)
+  alpha_low = ('a'..'z').to_a
+  alpha_up = ('A'..'Z').to_a
+  encode_string(str, alpha_low, alpha_up, shft_num)
 end
 
-p caesar_cipher("What a string!", 5)
+def encode_string(str, alpha_low, alpha_up, shft_num)
+  str.chars.map do |el|
+    if alpha_low.include?(el)
+      encode_char(el, alpha_low, shft_num)
+    elsif alpha_up.include?(el)
+      encode_char(el, alpha_up, shft_num)
+    else
+      el
+    end
+  end.join
+end
+
+def encode_char(char, alpha, shft_num)
+  new_val = alpha.index(char) + shft_num
+  new_val -= 26 while new_val > 25
+  alpha[new_val].to_s
+end
+
+p caesar_cipher('What a string!', 5)
